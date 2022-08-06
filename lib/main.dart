@@ -1,3 +1,13 @@
+/// https://knttnk.github.io/mypage/#/
+/// に公開しているページのソースコード
+///
+/// リポジトリは
+/// https://github.com/knttnk/mypage/
+///
+/// 参考
+/// https://zenn.dev/nekomimi_daimao/articles/26fd2e3b763191
+/// https://qiita.com/qiuyin/items/a80ae53827ffb746a56f
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -26,13 +36,8 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("knttnkのウェブサイトだよ")),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[
-            Text('工事中だよ'),
-          ],
-        ),
+      body: ListView(
+        children: <Widget>[for (int i = 0; i < 100; i++) const Text('工事中だよ')],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
