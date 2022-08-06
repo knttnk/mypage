@@ -7,8 +7,13 @@
 /// 参考
 /// https://zenn.dev/nekomimi_daimao/articles/26fd2e3b763191
 /// https://qiita.com/qiuyin/items/a80ae53827ffb746a56f
+///
+/// 更新は，mainにコミットしてから
+/// https://knttnk.github.io/mypage/?ecf0582
+/// を見る．ecf0582をデプロイ番号？に変える
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   runApp(const MyApp());
@@ -23,6 +28,9 @@ class MyApp extends StatelessWidget {
       title: 'knttnkのサイト',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        textTheme: GoogleFonts.mPlus1TextTheme(
+          Theme.of(context).textTheme,
+        ),
       ),
       home: const MyHomePage(),
     );
@@ -37,7 +45,9 @@ class MyHomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text("knttnkのウェブサイトだよ")),
       body: ListView(
-        children: <Widget>[for (int i = 0; i < 100; i++) const Text('工事中だよ')],
+        children: <Widget>[
+          for (int i = 0; i < 100; i++) const Text('工事中だよ'),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
