@@ -1,0 +1,21 @@
+{
+  "@@locale": "en",
+  "hello": "Hello {name}",
+  "@hello": {
+    "description": "welcome message",
+    "placeholders": {
+      "name": {
+        "description": "username",
+        "example": "kazutxt"
+      }
+    }
+  },
+  "page_title": "Website of knttnk",
+  "@page_title": {
+    "description": "ページトップに表示されるタイトル"
+  },
+  "home_title": "Website of knttnk (Home)",
+  "@home_title": {
+    "description": "ホームのappbarに表示されるメッセージ"
+  }
+}
