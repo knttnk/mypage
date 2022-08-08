@@ -73,10 +73,7 @@ class HomeTitleAppBar extends StatelessWidget {
       expandedHeight: (Theme.of(context).primaryTextTheme.titleLarge?.height ?? 30) * 5,
       flexibleSpace: FlexibleSpaceBar(
         centerTitle: false,
-        title: Text(
-          AppLocalizations.of(context)!.home_title,
-          style: Theme.of(context).textTheme.headline6?.copyWith(color: Colors.white),
-        ),
+        title: Text(AppLocalizations.of(context)!.home_title),
         background: DecoratedBox(
           decoration: const BoxDecoration(color: Colors.black45),
           position: DecorationPosition.foreground,
@@ -101,9 +98,12 @@ class ContactTile extends StatelessWidget {
   final IconData iconData;
   void copyToClipboard(BuildContext context) {
     Clipboard.setData(ClipboardData(text: content));
-    const SnackBar bar = SnackBar(
-      duration: Duration(seconds: 1),
-      content: Text("コピーしました"),
+    final SnackBar bar = SnackBar(
+      duration: const Duration(seconds: 1),
+      content: Text(
+        "コピーしました",
+        style: TextStyle(fontFamily: Settings.fontFamily),
+      ),
     );
     ScaffoldMessenger.of(context).showSnackBar(bar);
   }
