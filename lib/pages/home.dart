@@ -36,19 +36,19 @@ class HomeDrawer extends StatelessWidget {
       child: ListView(
         children: const [
           ListTile(
-            title: SelectableText("Home"),
+            title: Text("Home"),
             leading: Icon(Icons.home),
           ),
           ListTile(
-            title: SelectableText("Profile"),
+            title: Text("Profile"),
             leading: Icon(Icons.man),
           ),
           ListTile(
-            title: SelectableText("Publications"),
+            title: Text("Publications"),
             leading: Icon(Icons.article),
           ),
           ListTile(
-            title: SelectableText("Contact"),
+            title: Text("Contact"),
             leading: Icon(Icons.quick_contacts_dialer),
           ),
         ],
@@ -69,7 +69,7 @@ class HomeTitleAppBar extends StatelessWidget {
       expandedHeight: (Theme.of(context).primaryTextTheme.titleLarge?.height ?? 30) * 5,
       flexibleSpace: FlexibleSpaceBar(
         centerTitle: false,
-        title: SelectableText(
+        title: Text(
           AppLocalizations.of(context)!.home_title,
           style: Settings.textTheme(context).headline6?.copyWith(color: Colors.white),
         ),
@@ -95,10 +95,10 @@ class HomeContents extends StatelessWidget {
       delegate: SliverChildBuilderDelegate(
         (BuildContext context, int index) {
           return ListTile(
-            title: SelectableText('コンテンツ$index'),
+            title: Text('コンテンツ$index'),
             onTap: () {
               final SnackBar bar = SnackBar(
-                content: SelectableText(
+                content: Text(
                   'コンテンツ$indexをクリックしていただきましたが，特に何も実装していません．',
                 ),
               );
