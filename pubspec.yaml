@@ -44,13 +44,10 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/images/
-    - assets/fonts/
+    - assets/
+    - assets/about/MPlus1Gothic.txt
   
   fonts:
     - family: MPlus1Gothic
       fonts:
-        - asset: assets/fonts/OpenSansCondensed-Light.ttf
-          weight: 300
-        - asset: assets/fonts/OpenSansCondensed-Bold.ttf
-          weight: 700
+        - asset: assets/fonts/Mplus1-Regular.ttf

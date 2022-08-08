@@ -12,14 +12,17 @@
 /// 更新は，mainにコミットしてから
 /// https://knttnk.github.io/mypage/?bc50795
 /// を見る． bc50795 をデプロイ番号？に変える
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:mypage/settings.dart';
 
 import "pages/home.dart";
+import "about.dart";
 
 void main() {
+  AboutData.setupLicense();
   runApp(const MyApp());
 }
 

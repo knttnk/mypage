@@ -3,6 +3,7 @@ import "package:flutter/material.dart";
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mypage/settings.dart';
 import 'package:flutter/services.dart';
+import 'package:mypage/about.dart';
 
 class MySliverScaffold extends StatelessWidget {
   const MySliverScaffold({
@@ -53,6 +54,7 @@ class HomeDrawer extends StatelessWidget {
             title: Text("Contact"),
             leading: Icon(Icons.quick_contacts_dialer),
           ),
+          About(),
         ],
       ),
     );
