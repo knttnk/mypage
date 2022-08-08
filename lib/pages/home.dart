@@ -39,24 +39,24 @@ class HomeDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       child: ListView(
-        children: const [
+        children: [
           ListTile(
-            title: Text("Home"),
-            leading: Icon(Icons.home),
+            title: Text(AppLocalizations.of(context)!.home),
+            leading: const Icon(Icons.home),
           ),
           ListTile(
-            title: Text("Profile"),
-            leading: Icon(Icons.man),
+            title: Text(AppLocalizations.of(context)!.profile),
+            leading: const Icon(Icons.man),
           ),
           ListTile(
-            title: Text("Publications"),
-            leading: Icon(Icons.article),
+            title: Text(AppLocalizations.of(context)!.publications),
+            leading: const Icon(Icons.article),
           ),
           ListTile(
-            title: Text("Contact"),
-            leading: Icon(Icons.quick_contacts_dialer),
+            title: Text(AppLocalizations.of(context)!.contact),
+            leading: const Icon(Icons.quick_contacts_dialer),
           ),
-          About(),
+          const About(),
         ],
       ),
     );
@@ -104,7 +104,7 @@ class HomeTitleAppBar extends StatelessWidget {
         AppLocalizations.of(context)!.home_title,
         style: const TextStyle(fontWeight: FontWeight.bold),
       ),
-      actions: [LanguageSettings()],
+      actions: const [LanguageSettings()],
       flexibleSpace: const Introduction(),
     );
   }
@@ -136,7 +136,7 @@ class Introduction extends StatelessWidget {
               child: ListTile(
                 leading: const SizedBox(),
                 title: Text(
-                  "〇〇大学 〇〇研究科〇〇〇〇専攻\n博士前期課程9年",
+                  AppLocalizations.of(context)!.introduction,
                   style: textTheme.bodyMedium?.copyWith(
                     color: Colors.white,
                     fontSize: bodyFontSize * 1.2,
@@ -165,7 +165,7 @@ class ContactTile extends StatelessWidget {
     final SnackBar bar = SnackBar(
       duration: const Duration(seconds: 1),
       content: Text(
-        "コピーしました",
+        AppLocalizations.of(context)!.copied,
         style: TextStyle(fontFamily: Settings.fontFamily),
       ),
     );
@@ -195,7 +195,7 @@ class ContactView extends StatelessWidget {
       children: [
         ListTile(
           title: Text(
-            "\n連絡先",
+            "\n${AppLocalizations.of(context)!.contact}",
             style: Theme.of(context).textTheme.headline6,
           ),
         ),
@@ -208,7 +208,7 @@ class ContactView extends StatelessWidget {
           iconData: CupertinoIcons.mail,
         ),
         const ContactTile(
-          content: "+81 00 0000 0000",
+          content: "+81-00-0000-0000",
           iconData: CupertinoIcons.phone_fill,
         ),
       ],
@@ -235,7 +235,7 @@ class HomeContents extends StatelessWidget {
               );
             default:
               return ListTile(
-                title: Text('コンテンツ$index'),
+                title: Text('${AppLocalizations.of(context)!.content} $index'),
                 onTap: () {
                   final SnackBar bar = SnackBar(
                     duration: const Duration(seconds: 1),

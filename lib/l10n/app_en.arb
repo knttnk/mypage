@@ -17,5 +17,15 @@
   "home_title": "knttnk",
   "@home_title": {
     "description": "ホームのappbarに表示されるメッセージ"
-  }
+  },
+  "introduction": "Department of Mechanical Engineering, Osaka University",
+  "@introduction": {
+    "description": "自己紹介の所属"
+  },
+  "content": "content",
+  "copied": "Copied!",
+  "home": "Home",
+  "profile": "Profile",
+  "publications": "Publications",
+  "contact": "Contact"
 }
