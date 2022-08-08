@@ -14,7 +14,7 @@
   "@page_title": {
     "description": "ページトップに表示されるタイトル"
   },
-  "home_title": "Website of knttnk (Home)",
+  "home_title": "knttnk",
   "@home_title": {
     "description": "ホームのappbarに表示されるメッセージ"
   }

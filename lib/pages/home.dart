@@ -70,18 +70,52 @@ class HomeTitleAppBar extends StatelessWidget {
       pinned: true,
       snap: false,
       floating: true,
-      expandedHeight: (Theme.of(context).primaryTextTheme.titleLarge?.height ?? 30) * 5,
-      flexibleSpace: FlexibleSpaceBar(
-        centerTitle: false,
-        title: Text(AppLocalizations.of(context)!.home_title),
-        background: DecoratedBox(
-          decoration: const BoxDecoration(color: Colors.black45),
-          position: DecorationPosition.foreground,
-          child: Image.asset(
-            "assets/images/IMG_4919.HEIC",
-            fit: BoxFit.cover,
+      expandedHeight: (Theme.of(context).primaryTextTheme.titleLarge?.height ?? Settings.fallbackAppBarFontSize) * 5,
+      title: Text(
+        AppLocalizations.of(context)!.home_title,
+        style: const TextStyle(fontWeight: FontWeight.bold),
+      ),
+      flexibleSpace: const Introduction(),
+    );
+  }
+}
+
+class Introduction extends StatelessWidget {
+  const Introduction({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final TextTheme textTheme = Theme.of(context).textTheme;
+    final double bodyFontSize = textTheme.bodyMedium?.fontSize ?? Settings.fallbackBodyFontSize;
+    return FlexibleSpaceBar(
+      background: Stack(
+        fit: StackFit.passthrough,
+        children: [
+          DecoratedBox(
+            decoration: const BoxDecoration(color: Colors.black54),
+            position: DecorationPosition.foreground,
+            child: Image.asset(
+              "assets/images/IMG_4919.HEIC",
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
+          Padding(
+            padding: EdgeInsets.only(bottom: bodyFontSize / 2),
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: ListTile(
+                leading: const SizedBox(),
+                title: Text(
+                  "〇〇大学 〇〇研究科〇〇〇〇専攻\n博士前期課程9年",
+                  style: textTheme.bodyMedium?.copyWith(
+                    color: Colors.white,
+                    fontSize: bodyFontSize * 1.2,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
