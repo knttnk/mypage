@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mypage/settings.dart';
+import 'package:flutter/services.dart';
 
 class MySliverScaffold extends StatelessWidget {
   const MySliverScaffold({
@@ -86,27 +88,99 @@ class HomeTitleAppBar extends StatelessWidget {
   }
 }
 
-class HomeContents extends StatelessWidget {
-  const HomeContents({Key? key}) : super(key: key);
+class ContactTile extends StatelessWidget {
+  const ContactTile({
+    Key? key,
+    required this.content,
+    required this.iconData,
+  }) : super(key: key);
+
+  final String content;
+  final IconData iconData;
+  void copyToClipboard(BuildContext context) {
+    Clipboard.setData(ClipboardData(text: content));
+    const SnackBar bar = SnackBar(
+      content: Text("コピーしました"),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(bar);
+  }
 
   @override
   Widget build(BuildContext context) {
+    return ListTile(
+      leading: Icon(iconData),
+      title: SelectableText(content),
+      trailing: IconButton(
+        onPressed: () => copyToClipboard(context),
+        icon: const Icon(Icons.copy),
+      ),
+    );
+  }
+}
+
+class ContactView extends StatelessWidget {
+  const ContactView({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        ListTile(
+          title: Text(
+            "\n連絡先",
+            style: Theme.of(context).textTheme.headline6,
+          ),
+        ),
+        const ContactTile(
+          content: "なんとかなんとか",
+          iconData: CupertinoIcons.map_pin_ellipse,
+        ),
+        const ContactTile(
+          content: "メールアドレス@ドメイン.com",
+          iconData: CupertinoIcons.mail,
+        ),
+        const ContactTile(
+          content: "+81 00 0000 0000",
+          iconData: CupertinoIcons.phone_fill,
+        ),
+      ],
+    );
+  }
+}
+
+class HomeContents extends StatelessWidget {
+  const HomeContents({Key? key}) : super(key: key);
+  final Widget contact = const ContactView();
+
+  @override
+  Widget build(BuildContext context) {
+    const int childCount = 20;
     return SliverList(
       delegate: SliverChildBuilderDelegate(
         (BuildContext context, int index) {
-          return ListTile(
-            title: Text('コンテンツ$index'),
-            onTap: () {
-              final SnackBar bar = SnackBar(
-                content: Text(
-                  'コンテンツ$indexをクリックしていただきましたが，特に何も実装していません．',
-                ),
+          switch (index) {
+            case childCount - 2:
+              return contact;
+            case childCount - 1:
+              return SizedBox(
+                height: MediaQuery.of(context).size.height / 2,
               );
-              ScaffoldMessenger.of(context).showSnackBar(bar);
-            },
-          );
+            default:
+              return ListTile(
+                title: Text('コンテンツ$index'),
+                onTap: () {
+                  final SnackBar bar = SnackBar(
+                    content: Text(
+                      'コンテンツ$indexをクリックしていただきましたが，特に何も実装していません．',
+                    ),
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(bar);
+                },
+              );
+          }
         },
-        childCount: 60,
+        childCount: childCount,
       ),
     );
   }
