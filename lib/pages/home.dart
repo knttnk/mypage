@@ -99,6 +99,7 @@ class HomeTitleAppBar extends StatelessWidget {
       pinned: true,
       snap: false,
       floating: true,
+      centerTitle: false,
       expandedHeight: (Theme.of(context).primaryTextTheme.titleLarge?.height ?? Settings.fallbackAppBarFontSize) * 5,
       title: Text(
         AppLocalizations.of(context)!.home_title,
