@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:mypage/settings.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import 'package:mypage/about.dart';
+import 'package:mypage/main.dart';
+import 'package:mypage/settings.dart';
 
 class MySliverScaffold extends StatelessWidget {
   const MySliverScaffold({
@@ -61,6 +63,33 @@ class HomeDrawer extends StatelessWidget {
   }
 }
 
+final Map<String, String> languages = {
+  "ja": "日本語",
+  "en": "English",
+};
+
+class LanguageSettings extends StatelessWidget {
+  const LanguageSettings({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return PopupMenuButton<String>(
+      icon: const Icon(CupertinoIcons.globe),
+      initialValue: "日本語",
+      onSelected: (String v) => MyApp.of(context)?.setLocale(Locale(v)),
+      itemBuilder: (BuildContext context) {
+        return [
+          for (MapEntry e in languages.entries)
+            PopupMenuItem(
+              value: e.key,
+              child: Text(e.value),
+            ),
+        ];
+      },
+    );
+  }
+}
+
 class HomeTitleAppBar extends StatelessWidget {
   const HomeTitleAppBar({Key? key}) : super(key: key);
 
@@ -75,6 +104,7 @@ class HomeTitleAppBar extends StatelessWidget {
         AppLocalizations.of(context)!.home_title,
         style: const TextStyle(fontWeight: FontWeight.bold),
       ),
+      actions: [LanguageSettings()],
       flexibleSpace: const Introduction(),
     );
   }
