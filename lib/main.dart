@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
       title: "Website of knttnk",
       theme: ThemeData(
         primarySwatch: Colors.teal,
-        textTheme: Settings.textTheme(context),
+        fontFamily: Settings.fontFamily,
       ),
       home: const HomePage(),
     );
