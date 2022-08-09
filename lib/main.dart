@@ -65,12 +65,10 @@ class MyAppState extends State<MyApp> {
       ],
       locale: locale,
       title: "Website of knttnk",
+      scrollBehavior: const CustomScrollBehavior(),
       theme: ThemeData(
         primarySwatch: Colors.teal,
         fontFamily: Settings.fontFamily,
-        scrollbarTheme: ScrollbarThemeData(
-          thumbVisibility: MaterialStateProperty.resolveWith((states) => true),
-        ),
       ),
       home: const HomePage(),
     );
