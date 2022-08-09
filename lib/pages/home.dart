@@ -7,7 +7,7 @@ import 'package:mypage/about.dart';
 import 'package:mypage/main.dart';
 import 'package:mypage/settings.dart';
 
-class MySliverScaffold extends StatelessWidget {
+class MySliverScaffold extends StatefulWidget {
   const MySliverScaffold({
     Key? key,
     required this.body,
@@ -19,15 +19,38 @@ class MySliverScaffold extends StatelessWidget {
   final Widget? appBar;
 
   @override
+  State<MySliverScaffold> createState() => _MySliverScaffoldState();
+}
+
+class _MySliverScaffoldState extends State<MySliverScaffold> {
+  @override
+  void initState() {
+    super.initState();
+    scrollController = ScrollController();
+  }
+
+  @override
+  void dispose() {
+    scrollController?.dispose();
+    super.dispose();
+  }
+
+  ScrollController? scrollController;
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: drawer,
-      body: CustomScrollView(
-        primary: true,
-        slivers: <Widget>[
-          appBar ?? const SizedBox(),
-          body,
-        ],
+      drawer: widget.drawer,
+      body: PrimaryScrollController(
+        controller: scrollController!,
+        child: CustomScrollView(
+          restorationId: "scroll1",
+          controller: scrollController,
+          slivers: <Widget>[
+            widget.appBar ?? const SizedBox(),
+            widget.body,
+          ],
+        ),
       ),
     );
   }
@@ -78,6 +101,7 @@ class LanguageSettings extends StatelessWidget {
       icon: const Icon(CupertinoIcons.globe),
       initialValue: "日本語",
       onSelected: (String v) => MyApp.of(context)?.setLocale(Locale(v)),
+      tooltip: "Language",
       itemBuilder: (BuildContext context) {
         return [
           for (MapEntry e in languages.entries)
@@ -181,6 +205,7 @@ class ContactTile extends StatelessWidget {
       title: SelectableText(content),
       trailing: IconButton(
         onPressed: () => copyToClipboard(context),
+        tooltip: "Copy",
         icon: const Icon(Icons.copy),
       ),
     );
