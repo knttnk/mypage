@@ -23,6 +23,7 @@ class MySliverScaffold extends StatelessWidget {
     return Scaffold(
       drawer: drawer,
       body: CustomScrollView(
+        primary: true,
         slivers: <Widget>[
           appBar ?? const SizedBox(),
           body,
