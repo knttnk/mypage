@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 
 abstract class Settings {
@@ -23,7 +24,7 @@ class CustomScrollBehavior extends MaterialScrollBehavior {
       case Axis.horizontal:
         return child;
       case Axis.vertical:
-        return Scrollbar(
+        return CupertinoScrollbar(
           thumbVisibility: true,
           controller: details.controller,
           child: child,
@@ -31,11 +32,9 @@ class CustomScrollBehavior extends MaterialScrollBehavior {
     }
   }
 
-  /// https://note.com/hatchoutschool/n/nfe12a0aa069a
-  /// モバイルでもドラッグできるように
   @override
   Set<PointerDeviceKind> get dragDevices => {
         PointerDeviceKind.touch,
-        PointerDeviceKind.mouse,
+        // PointerDeviceKind.mouse,
       };
 }
