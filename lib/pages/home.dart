@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 import 'package:flutter/services.dart';
@@ -39,13 +41,14 @@ class _MySliverScaffoldState extends State<MySliverScaffold> {
 
   @override
   Widget build(BuildContext context) {
+    final Widget? appBar = widget.appBar;
     final Widget body = PrimaryScrollController(
       controller: scrollController!,
       child: CustomScrollView(
         restorationId: "scroll1",
         controller: scrollController,
         slivers: <Widget>[
-          widget.appBar ?? const SizedBox(),
+          ...(appBar == null ? [] : [appBar]),
           widget.body,
         ],
       ),
@@ -92,7 +95,7 @@ class HomeDrawer extends StatelessWidget {
           ),
           ListTile(
             title: Text(AppLocalizations.of(context)!.contact),
-            leading: const Icon(Icons.quick_contacts_dialer),
+            leading: const Icon(Icons.contact_mail),
           ),
           const About(),
         ],
@@ -134,12 +137,17 @@ class HomeTitleAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double minHeight =
+        (Theme.of(context).primaryTextTheme.titleLarge?.height ?? Settings.fallbackAppBarFontSize) * 5;
+    final double height = MediaQuery.of(context).size.height / 2;
     return SliverAppBar(
       pinned: true,
       snap: false,
       floating: true,
+      stretch: true,
       centerTitle: false,
-      expandedHeight: (Theme.of(context).primaryTextTheme.titleLarge?.height ?? Settings.fallbackAppBarFontSize) * 5,
+      primary: false,
+      expandedHeight: max(height, minHeight),
       title: Text(
         AppLocalizations.of(context)!.home_title,
         style: const TextStyle(fontWeight: FontWeight.bold),
@@ -158,6 +166,7 @@ class Introduction extends StatelessWidget {
     final TextTheme textTheme = Theme.of(context).textTheme;
     final double bodyFontSize = textTheme.bodyMedium?.fontSize ?? Settings.fallbackBodyFontSize;
     return FlexibleSpaceBar(
+      collapseMode: CollapseMode.pin,
       background: Stack(
         fit: StackFit.passthrough,
         children: [
