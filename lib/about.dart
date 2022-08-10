@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:web_browser_detect/web_browser_detect.dart';
 
 abstract class AboutData {
   static void setupLicense() {
@@ -25,8 +26,17 @@ class About extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String s = "not browser";
+    if (kIsWeb) {
+      final browser = Browser();
+      s = '${browser.browser} ${browser.version}';
+    }
+
+    print(s);
+
     return ListTile(
       title: const Text("About this page"),
+      subtitle: Text(s),
       onTap: () => showAboutDialog(context: context, children: []),
     );
   }

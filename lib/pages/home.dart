@@ -39,19 +39,33 @@ class _MySliverScaffoldState extends State<MySliverScaffold> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: widget.drawer,
-      body: PrimaryScrollController(
-        controller: scrollController!,
-        child: CustomScrollView(
-          restorationId: "scroll1",
-          controller: scrollController,
-          slivers: <Widget>[
-            widget.appBar ?? const SizedBox(),
-            widget.body,
-          ],
-        ),
+    final Widget body = PrimaryScrollController(
+      controller: scrollController!,
+      child: CustomScrollView(
+        restorationId: "scroll1",
+        controller: scrollController,
+        slivers: <Widget>[
+          widget.appBar ?? const SizedBox(),
+          widget.body,
+        ],
       ),
+    );
+    final Widget drawer = widget.drawer;
+    return OrientationBuilder(
+      builder: (context, orientation) {
+        final bool isLandscape = orientation == Orientation.landscape;
+        return Scaffold(
+          drawer: isLandscape ? null : drawer,
+          body: isLandscape
+              ? Row(
+                  children: [
+                    drawer,
+                    Expanded(child: body),
+                  ],
+                )
+              : body,
+        );
+      },
     );
   }
 }
