@@ -1,4 +1,4 @@
-import 'dart:ui';
+import 'dart:ui' as ui;
 import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 
@@ -12,9 +12,11 @@ abstract class Settings {
     Locale('ja'),
     Locale('en'),
   ];
-  static Locale locale({required String localeName}) {
+  static Locale get userLocale {
+    final Locale locale = ui.window.locale;
+
     for (Locale l in Settings.supportedLocales) {
-      if (localeName.startsWith(l.languageCode)) {
+      if (locale.languageCode.startsWith(l.languageCode)) {
         return l;
       }
     }
@@ -46,8 +48,8 @@ class CustomScrollBehavior extends MaterialScrollBehavior {
   }
 
   @override
-  Set<PointerDeviceKind> get dragDevices => {
-        PointerDeviceKind.touch,
+  Set<ui.PointerDeviceKind> get dragDevices => {
+        ui.PointerDeviceKind.touch,
         // PointerDeviceKind.mouse,
       };
 }

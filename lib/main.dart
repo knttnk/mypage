@@ -12,9 +12,6 @@
 /// 更新は，mainにコミットしてから
 /// https://knttnk.github.io/mypage/?bc50795
 /// を見る． bc50795 をデプロイ番号？に変える
-
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -38,13 +35,14 @@ class MyApp extends StatefulWidget {
 }
 
 class MyAppState extends State<MyApp> {
+  Locale? locale;
+
   @override
   void initState() {
-    locale = Settings.locale(localeName: Platform.localeName);
+    locale = Settings.userLocale;
     super.initState();
   }
 
-  Locale? locale;
   void setLocale(Locale value) {
     setState(() {
       locale = value;
