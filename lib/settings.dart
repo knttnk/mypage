@@ -7,6 +7,19 @@ abstract class Settings {
 
   static double fallbackAppBarFontSize = 30;
   static double fallbackBodyFontSize = 20;
+
+  static List<Locale> supportedLocales = const [
+    Locale('ja'),
+    Locale('en'),
+  ];
+  static Locale locale({required String localeName}) {
+    for (Locale l in Settings.supportedLocales) {
+      if (localeName.startsWith(l.languageCode)) {
+        return l;
+      }
+    }
+    return Settings.supportedLocales.first;
+  }
 }
 
 class CustomScrollBehavior extends MaterialScrollBehavior {

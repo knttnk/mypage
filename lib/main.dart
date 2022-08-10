@@ -13,6 +13,8 @@
 /// https://knttnk.github.io/mypage/?bc50795
 /// を見る． bc50795 をデプロイ番号？に変える
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -38,12 +40,11 @@ class MyApp extends StatefulWidget {
 class MyAppState extends State<MyApp> {
   @override
   void initState() {
-    locale = const Locale("ja");
+    locale = Settings.locale(localeName: Platform.localeName);
     super.initState();
   }
 
-  Locale locale = const Locale("ja");
-
+  Locale? locale;
   void setLocale(Locale value) {
     setState(() {
       locale = value;
@@ -59,10 +60,7 @@ class MyAppState extends State<MyApp> {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: const [
-        Locale('ja'),
-        Locale('en'),
-      ],
+      supportedLocales: Settings.supportedLocales,
       locale: locale,
       title: "Website of knttnk",
       scrollBehavior: const CustomScrollBehavior(),
