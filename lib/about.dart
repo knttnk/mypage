@@ -28,8 +28,11 @@ class About extends StatelessWidget {
   Widget build(BuildContext context) {
     String s = "not browser";
     if (kIsWeb) {
-      final browser = Browser();
-      s = '${browser.browser} ${browser.version}';
+      final Browser browser = Browser();
+      s = """browser: ${browser.browser}
+      browserAgent: ${browser.browserAgent}
+      version: ${browser.version}
+      """;
     }
 
     print(s);
