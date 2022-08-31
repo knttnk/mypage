@@ -50,6 +50,10 @@ class CustomScrollBehavior extends MaterialScrollBehavior {
   @override
   Set<ui.PointerDeviceKind> get dragDevices => {
         ui.PointerDeviceKind.touch,
-        // PointerDeviceKind.mouse,
+        ui.PointerDeviceKind.mouse,
+        ui.PointerDeviceKind.trackpad,
+        ui.PointerDeviceKind.stylus,
+        ui.PointerDeviceKind.invertedStylus,
+        ui.PointerDeviceKind.unknown,
       };
 }
