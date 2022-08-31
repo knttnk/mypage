@@ -18,6 +18,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:mypage/settings.dart';
 
 import "pages/home.dart";
+import "pages/test.dart" as test;
 import "about.dart";
 
 void main() {
@@ -65,6 +66,7 @@ class MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.teal,
         fontFamily: Settings.fontFamily,
+        useMaterial3: true,
       ),
       home: const HomePage(),
     );
