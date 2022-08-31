@@ -276,30 +276,32 @@ class HomeContents extends StatelessWidget {
     return SliverList(
       delegate: SliverChildBuilderDelegate(
         (BuildContext context, int index) {
-          switch (index) {
-            case childCount - 2:
-              return contact;
-            case childCount - 1:
-              return SizedBox(
-                height: MediaQuery.of(context).size.height / 2,
-              );
-            default:
-              return ListTile(
-                title: Text('${AppLocalizations.of(context)!.content} $index'),
-                onTap: () {
-                  final SnackBar bar = SnackBar(
-                    duration: const Duration(seconds: 1),
-                    content: Text(
-                      'コンテンツ$indexをクリックしていただきましたが，特に何も実装していません．',
-                      style: TextStyle(fontFamily: Settings.fontFamily),
-                    ),
-                  );
-                  ScaffoldMessenger.of(context).showSnackBar(bar);
-                },
-              );
-          }
+          return Column(
+            children: [
+              ...List<Widget>.generate(
+                20,
+                (index) => ListTile(
+                  title: Text('${AppLocalizations.of(context)!.content} $index'),
+                  onTap: () {
+                    final SnackBar bar = SnackBar(
+                      duration: const Duration(seconds: 1),
+                      content: Text(
+                        'コンテンツ$indexをクリックしていただきましたが，特に何も実装していません．',
+                        style: TextStyle(fontFamily: Settings.fontFamily),
+                      ),
+                    );
+                    ScaffoldMessenger.of(context).showSnackBar(bar);
+                  },
+                ),
+              ),
+              contact,
+              const SizedBox(
+                height: kBottomNavigationBarHeight * 3,
+              ),
+            ],
+          );
         },
-        childCount: childCount,
+        childCount: 1,
       ),
     );
   }

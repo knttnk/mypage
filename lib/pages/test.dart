@@ -121,48 +121,6 @@ class LanguageSettings extends StatelessWidget {
   }
 }
 
-class Introduction extends StatelessWidget {
-  const Introduction({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final TextTheme textTheme = Theme.of(context).textTheme;
-    final double bodyFontSize = textTheme.bodyMedium?.fontSize ?? Settings.fallbackBodyFontSize;
-    return FlexibleSpaceBar(
-      collapseMode: CollapseMode.pin,
-      background: Stack(
-        fit: StackFit.passthrough,
-        children: [
-          DecoratedBox(
-            decoration: const BoxDecoration(color: Colors.black54),
-            position: DecorationPosition.foreground,
-            child: Image.asset(
-              "assets/images/IMG_4919.HEIC",
-              fit: BoxFit.cover,
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(bottom: bodyFontSize / 2),
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: ListTile(
-                leading: const SizedBox(),
-                title: Text(
-                  AppLocalizations.of(context)!.introduction,
-                  style: textTheme.bodyMedium?.copyWith(
-                    color: Colors.white,
-                    fontSize: bodyFontSize * 1.2,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 class ContactTile extends StatelessWidget {
   const ContactTile({
     Key? key,
@@ -230,34 +188,36 @@ class ContactView extends StatelessWidget {
 }
 
 class HomeContents extends StatelessWidget {
-  HomeContents({Key? key}) : super(key: key);
+  const HomeContents({Key? key}) : super(key: key);
   final Widget contact = const ContactView();
-
-  final List<Widget> children = [];
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      shrinkWrap: true,
-      children: [
-        ...List<Widget>.generate(
-          20,
-          (index) => ListTile(
-            title: Text('${AppLocalizations.of(context)!.content} $index'),
-            onTap: () {
-              final SnackBar bar = SnackBar(
-                duration: const Duration(seconds: 1),
-                content: Text(
-                  'コンテンツ$indexをクリックしていただきましたが，特に何も実装していません．',
-                  style: TextStyle(fontFamily: Settings.fontFamily),
-                ),
-              );
-              ScaffoldMessenger.of(context).showSnackBar(bar);
-            },
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          ...List<Widget>.generate(
+            20,
+            (index) => ListTile(
+              title: Text('${AppLocalizations.of(context)!.content} $index'),
+              onTap: () {
+                final SnackBar bar = SnackBar(
+                  duration: const Duration(seconds: 1),
+                  content: Text(
+                    'コンテンツ$indexをクリックしていただきましたが，特に何も実装していません．',
+                    style: TextStyle(fontFamily: Settings.fontFamily),
+                  ),
+                );
+                ScaffoldMessenger.of(context).showSnackBar(bar);
+              },
+            ),
           ),
-        ),
-        contact,
-      ],
+          contact,
+          const SizedBox(
+            height: kBottomNavigationBarHeight * 3,
+          ),
+        ],
+      ),
     );
   }
 }
@@ -270,14 +230,12 @@ class HomePage extends StatelessWidget {
     return TestScaffold(
       drawer: const HomeDrawer(),
       appBar: AppBar(
-        // centerTitle: false,
-        primary: false,
+        primary: true,
         title: Text(
           AppLocalizations.of(context)!.home_title,
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         actions: const [LanguageSettings()],
-        // flexibleSpace: const Introduction(),
       ),
       body: HomeContents(),
     );

@@ -64,7 +64,7 @@ class MyAppState extends State<MyApp> {
       title: "Website of knttnk",
       scrollBehavior: const CustomScrollBehavior(),
       theme: ThemeData(
-        primarySwatch: Colors.teal,
+        colorSchemeSeed: Colors.teal,
         fontFamily: Settings.fontFamily,
         useMaterial3: true,
       ),
