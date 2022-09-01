@@ -39,7 +39,7 @@ class CustomScrollBehavior extends MaterialScrollBehavior {
       case Axis.horizontal:
         return child;
       case Axis.vertical:
-        return CupertinoScrollbar(
+        return Scrollbar(
           thumbVisibility: true,
           controller: details.controller,
           child: child,

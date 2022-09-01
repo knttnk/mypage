@@ -52,6 +52,8 @@ class MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    const Color colorSchemeSeed = Color.fromARGB(255, 2, 94, 63);
+    final ColorScheme colorScheme = ColorScheme.fromSeed(seedColor: colorSchemeSeed);
     return MaterialApp(
       localizationsDelegates: const [
         AppLocalizations.delegate,
@@ -64,11 +66,17 @@ class MyAppState extends State<MyApp> {
       title: "Website of knttnk",
       scrollBehavior: const CustomScrollBehavior(),
       theme: ThemeData(
-        colorSchemeSeed: Colors.teal,
+        colorSchemeSeed: colorSchemeSeed,
         fontFamily: Settings.fontFamily,
-        useMaterial3: true,
+        brightness: Brightness.light,
+        cardTheme: CardTheme(
+          elevation: 0,
+          color: colorScheme.secondaryContainer,
+        ),
+        useMaterial3: false,
       ),
-      home: const HomePage(),
+      // home: const HomePage(),
+      home: test.AdaptiveHomePage(),
     );
   }
 }

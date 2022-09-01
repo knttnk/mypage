@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'utils.dart';
 
 import 'package:mypage/about.dart';
 import 'package:mypage/main.dart';
@@ -104,53 +105,26 @@ class HomeDrawer extends StatelessWidget {
   }
 }
 
-final Map<String, String> languages = {
-  "ja": "日本語",
-  "en": "English",
-};
-
-class LanguageSettings extends StatelessWidget {
-  const LanguageSettings({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return PopupMenuButton<String>(
-      icon: const Icon(CupertinoIcons.globe),
-      initialValue: "日本語",
-      onSelected: (String v) => MyApp.of(context)?.setLocale(Locale(v)),
-      tooltip: "Language",
-      itemBuilder: (BuildContext context) {
-        return [
-          for (MapEntry e in languages.entries)
-            PopupMenuItem(
-              value: e.key,
-              child: Text(e.value),
-            ),
-        ];
-      },
-    );
-  }
-}
-
 class HomeTitleAppBar extends StatelessWidget {
   const HomeTitleAppBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final double minHeight =
-        (Theme.of(context).primaryTextTheme.titleLarge?.height ?? Settings.fallbackAppBarFontSize) * 5;
+    final ThemeData theme = Theme.of(context);
+    final TextTheme textTheme = theme.textTheme;
+    final double minHeight = (theme.primaryTextTheme.titleLarge?.height ?? Settings.fallbackAppBarFontSize) * 5;
     final double height = MediaQuery.of(context).size.height / 2;
     return SliverAppBar(
       pinned: true,
-      snap: false,
-      floating: true,
-      stretch: true,
-      centerTitle: false,
-      primary: false,
+      primary: true,
+      backgroundColor: theme.colorScheme.primary,
+      foregroundColor: theme.colorScheme.onPrimary,
       expandedHeight: max(height, minHeight),
       title: Text(
         AppLocalizations.of(context)!.home_title,
-        style: const TextStyle(fontWeight: FontWeight.bold),
+        style: TextStyle(
+          color: theme.colorScheme.onPrimary,
+        ),
       ),
       actions: const [LanguageSettings()],
       flexibleSpace: const Introduction(),
@@ -163,7 +137,8 @@ class Introduction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextTheme textTheme = Theme.of(context).textTheme;
+    final ThemeData theme = Theme.of(context);
+    final TextTheme textTheme = theme.textTheme;
     final double bodyFontSize = textTheme.bodyMedium?.fontSize ?? Settings.fallbackBodyFontSize;
     return FlexibleSpaceBar(
       collapseMode: CollapseMode.pin,
@@ -186,9 +161,10 @@ class Introduction extends StatelessWidget {
                 leading: const SizedBox(),
                 title: Text(
                   AppLocalizations.of(context)!.introduction,
-                  style: textTheme.bodyMedium?.copyWith(
-                    color: Colors.white,
+                  style: TextStyle(
+                    color: theme.colorScheme.onPrimary,
                     fontSize: bodyFontSize * 1.2,
+                    fontWeight: FontWeight.normal,
                   ),
                 ),
               ),
@@ -200,98 +176,39 @@ class Introduction extends StatelessWidget {
   }
 }
 
-class ContactTile extends StatelessWidget {
-  const ContactTile({
-    Key? key,
-    required this.content,
-    required this.iconData,
-  }) : super(key: key);
-
-  final String content;
-  final IconData iconData;
-  void copyToClipboard(BuildContext context) {
-    Clipboard.setData(ClipboardData(text: content));
-    final SnackBar bar = SnackBar(
-      duration: const Duration(seconds: 1),
-      content: Text(
-        AppLocalizations.of(context)!.copied,
-        style: TextStyle(fontFamily: Settings.fontFamily),
-      ),
-    );
-    ScaffoldMessenger.of(context).showSnackBar(bar);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      leading: Icon(iconData),
-      title: SelectableText(content),
-      trailing: IconButton(
-        onPressed: () => copyToClipboard(context),
-        tooltip: "Copy",
-        icon: const Icon(Icons.copy),
-      ),
-    );
-  }
-}
-
-class ContactView extends StatelessWidget {
-  const ContactView({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        ListTile(
-          title: Text(
-            "\n${AppLocalizations.of(context)!.contact}",
-            style: Theme.of(context).textTheme.headline6,
-          ),
-        ),
-        const ContactTile(
-          content: "なんとかなんとか",
-          iconData: CupertinoIcons.map_pin_ellipse,
-        ),
-        const ContactTile(
-          content: "メールアドレス@ドメイン.com",
-          iconData: CupertinoIcons.mail,
-        ),
-        const ContactTile(
-          content: "+81-00-0000-0000",
-          iconData: CupertinoIcons.phone_fill,
-        ),
-      ],
-    );
-  }
-}
-
 class HomeContents extends StatelessWidget {
   const HomeContents({Key? key}) : super(key: key);
   final Widget contact = const ContactView();
 
   @override
   Widget build(BuildContext context) {
-    const int childCount = 20;
     return SliverList(
       delegate: SliverChildBuilderDelegate(
         (BuildContext context, int index) {
+          final ColorScheme colorScheme = Theme.of(context).colorScheme;
           return Column(
             children: [
               ...List<Widget>.generate(
                 20,
-                (index) => ListTile(
-                  title: Text('${AppLocalizations.of(context)!.content} $index'),
-                  onTap: () {
-                    final SnackBar bar = SnackBar(
-                      duration: const Duration(seconds: 1),
-                      content: Text(
-                        'コンテンツ$indexをクリックしていただきましたが，特に何も実装していません．',
-                        style: TextStyle(fontFamily: Settings.fontFamily),
-                      ),
-                    );
-                    ScaffoldMessenger.of(context).showSnackBar(bar);
-                  },
+                (index) => Card(
+                  elevation: 0,
+                  color: colorScheme.secondaryContainer,
+                  child: ListTile(
+                    title: Text(
+                      '${AppLocalizations.of(context)!.content} $index',
+                      style: TextStyle(color: colorScheme.onSecondaryContainer),
+                    ),
+                    onTap: () {
+                      final SnackBar bar = SnackBar(
+                        duration: const Duration(seconds: 1),
+                        content: Text(
+                          'コンテンツ$indexをクリックしていただきましたが，特に何も実装していません．',
+                          style: TextStyle(fontFamily: Settings.fontFamily),
+                        ),
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(bar);
+                    },
+                  ),
                 ),
               ),
               contact,
