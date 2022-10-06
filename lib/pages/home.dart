@@ -146,7 +146,7 @@ class MyAppbarDelegate extends SliverPersistentHeaderDelegate {
                   child: Card(
                     clipBehavior: Clip.antiAlias,
                     child: Image(
-                      fit: BoxFit.fill,
+                      fit: BoxFit.cover,
                       isAntiAlias: true,
                       image: AssetImage(
                         "assets/images/IMG_4919.HEIC",
