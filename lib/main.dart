@@ -20,6 +20,7 @@ import 'package:mypage/settings.dart';
 import "pages/home.dart";
 import "pages/test.dart" as test;
 import "about.dart";
+import 'theme.dart';
 
 void main() {
   AboutData.setupLicense();
@@ -52,8 +53,6 @@ class MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    const Color colorSchemeSeed = Color.fromARGB(255, 2, 94, 63);
-    final ColorScheme colorScheme = ColorScheme.fromSeed(seedColor: colorSchemeSeed);
     return MaterialApp(
       localizationsDelegates: const [
         AppLocalizations.delegate,
@@ -65,18 +64,9 @@ class MyAppState extends State<MyApp> {
       locale: locale,
       title: "Website of knttnk",
       scrollBehavior: const CustomScrollBehavior(),
-      theme: ThemeData(
-        colorSchemeSeed: colorSchemeSeed,
-        fontFamily: Settings.fontFamily,
-        brightness: Brightness.light,
-        cardTheme: CardTheme(
-          elevation: 0,
-          color: colorScheme.secondaryContainer,
-        ),
-        useMaterial3: false,
-      ),
-      // home: const HomePage(),
-      home: test.AdaptiveHomePage(),
+      theme: MyTheme.themeData,
+      home: const AdaptiveHomePage(),
+      // home: const test.AdaptiveHomePage(),
     );
   }
 }

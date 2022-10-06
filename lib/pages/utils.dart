@@ -1,13 +1,12 @@
-import 'package:adaptive_scaffold/adaptive_scaffold.dart';
+import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
 
-import 'utils.dart';
 import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:mypage/about.dart';
 import 'package:mypage/main.dart';
+import 'package:mypage/theme.dart';
 import 'package:mypage/settings.dart';
 
 final Map<String, String> languages = {
@@ -23,7 +22,7 @@ class LanguageSettings extends StatelessWidget {
     return PopupMenuButton<String>(
       icon: Icon(
         CupertinoIcons.globe,
-        color: Theme.of(context).colorScheme.onPrimary,
+        color: MyTheme.themeData.colorScheme.onBackground,
       ),
       initialValue: "日本語",
       onSelected: (String v) => MyApp.of(context)?.setLocale(Locale(v)),
@@ -33,7 +32,12 @@ class LanguageSettings extends StatelessWidget {
           for (MapEntry e in languages.entries)
             PopupMenuItem(
               value: e.key,
-              child: Text(e.value),
+              child: Text(
+                e.value,
+                style: TextStyle(
+                  color: MyTheme.themeData.colorScheme.onTertiaryContainer,
+                ),
+              ),
             ),
         ];
       },
@@ -99,6 +103,48 @@ class ContactView extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class ActiveBreakpointViewer extends StatelessWidget {
+  const ActiveBreakpointViewer({Key? key, required this.child}) : super(key: key);
+  final Widget child;
+
+  static const Map<Breakpoint, String> allBreakpoints = {
+    Breakpoints.large: "large",
+    Breakpoints.largeDesktop: "largeDesktop",
+    Breakpoints.largeMobile: "largeMobile",
+    Breakpoints.medium: "medium",
+    Breakpoints.mediumAndUp: "mediumAndUp",
+    Breakpoints.mediumDesktop: "mediumDesktop",
+    Breakpoints.mediumMobile: "mediumMobile",
+    Breakpoints.small: "small",
+    Breakpoints.smallAndUp: "smallAndUp",
+    Breakpoints.smallDesktop: "smallDesktop",
+    Breakpoints.smallMobile: "smallMobile",
+    Breakpoints.standard: "standard",
+  };
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        child,
+        ColoredBox(
+          color: Colors.white,
+          child: Text(
+            allBreakpoints.keys
+                .where(
+                  (b) => b.isActive(context),
+                )
+                .map(
+                  (b) => allBreakpoints[b],
+                )
+                .join(", "),
+          ),
+        ),
+      ],
     );
   }
 }

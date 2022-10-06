@@ -14,9 +14,9 @@
   "@page_title": {
     "description": "ページトップに表示されるタイトル"
   },
-  "home_title": "knttnk",
-  "@home_title": {
-    "description": "ホームのappbarに表示されるメッセージ"
+  "my_name": "knttnk",
+  "@my_name": {
+    "description": "自分の名前"
   },
   "introduction": "Department of Mechanical Engineering, Osaka University",
   "@introduction": {

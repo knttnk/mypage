@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mypage/theme.dart';
 
 abstract class AboutData {
   static void setupLicense() {
@@ -25,9 +26,12 @@ class About extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: const Text("About this page"),
-      onTap: () => showAboutDialog(context: context, children: []),
+    return IconButton(
+      icon: Icon(
+        Icons.info_outline,
+        color: MyTheme.themeData.colorScheme.onBackground,
+      ),
+      onPressed: () => showAboutDialog(context: context, children: []),
     );
   }
 }

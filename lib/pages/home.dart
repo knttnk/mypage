@@ -1,108 +1,208 @@
 import 'dart:math';
 
-import 'package:flutter/cupertino.dart';
+import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
 import "package:flutter/material.dart";
-import 'package:flutter/services.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'utils.dart';
+import 'package:mypage/theme.dart';
 
 import 'package:mypage/about.dart';
-import 'package:mypage/main.dart';
 import 'package:mypage/settings.dart';
 
-class MySliverScaffold extends StatefulWidget {
+class MySliverScaffold extends StatelessWidget {
   const MySliverScaffold({
     Key? key,
     required this.body,
-    required this.drawer,
     required this.appBar,
   }) : super(key: key);
   final Widget body;
-  final Widget drawer;
-  final Widget? appBar;
-
-  @override
-  State<MySliverScaffold> createState() => _MySliverScaffoldState();
-}
-
-class _MySliverScaffoldState extends State<MySliverScaffold> {
-  @override
-  void initState() {
-    super.initState();
-    scrollController = ScrollController();
-  }
-
-  @override
-  void dispose() {
-    scrollController?.dispose();
-    super.dispose();
-  }
-
-  ScrollController? scrollController;
+  final Widget appBar;
 
   @override
   Widget build(BuildContext context) {
-    final Widget? appBar = widget.appBar;
-    final Widget body = PrimaryScrollController(
-      controller: scrollController!,
-      child: CustomScrollView(
-        restorationId: "scroll1",
-        controller: scrollController,
-        slivers: <Widget>[
-          ...(appBar == null ? [] : [appBar]),
-          widget.body,
-        ],
+    final List<NavigationDestination> destinations = [
+      NavigationDestination(icon: const Icon(Icons.home), label: AppLocalizations.of(context)!.home),
+      NavigationDestination(icon: const Icon(Icons.man), label: AppLocalizations.of(context)!.profile),
+      NavigationDestination(icon: const Icon(Icons.article), label: AppLocalizations.of(context)!.publications),
+      NavigationDestination(icon: const Icon(Icons.contact_mail), label: AppLocalizations.of(context)!.contact),
+    ];
+    final List<NavigationRailDestination> railDestinations = destinations
+        .map(
+          (d) => AdaptiveScaffold.toRailDestination(d),
+        )
+        .toList();
+    final Widget body = CustomScrollView(
+      slivers: <Widget>[
+        appBar,
+        this.body,
+      ],
+    );
+    return AdaptiveLayout(
+      // Primary navigation config has nothing from 0 to 600 dp screen width,
+      // then an unextended NavigationRail with no labels and just icons then an
+      // extended NavigationRail with both icons and labels.
+      primaryNavigation: SlotLayout(
+        config: <Breakpoint, SlotLayoutConfig>{
+          Breakpoints.medium: SlotLayout.from(
+            inAnimation: AdaptiveScaffold.leftOutIn,
+            key: const Key('Primary Navigation Medium'),
+            builder: (_) => SizedBox(
+              width: 72,
+              child: NavigationRail(
+                destinations: railDestinations,
+                selectedIndex: null,
+              ),
+            ),
+          ),
+          Breakpoints.large: SlotLayout.from(
+            inAnimation: AdaptiveScaffold.leftOutIn,
+            key: const Key('Primary Navigation Medium'),
+            builder: (_) => SizedBox(
+              width: 192,
+              child: NavigationRail(
+                destinations: railDestinations,
+                selectedIndex: null,
+                extended: true,
+              ),
+            ),
+          ),
+        },
+      ),
+      // Body switches between a ListView and a GridView from small to medium
+      // breakpoints and onwards.
+      body: SlotLayout(
+        config: <Breakpoint, SlotLayoutConfig>{
+          // for b in Breakpoints.
+          Breakpoints.small: SlotLayout.from(
+            key: const Key('Body Small'),
+            builder: (context) => body,
+          ),
+          Breakpoints.mediumAndUp: SlotLayout.from(
+            key: const Key('Body Medium'),
+            builder: (context) => body,
+          )
+        },
+      ),
+      // BottomNavigation is only active in small views defined as under 600 dp
+      // width.
+      bottomNavigation: SlotLayout(
+        config: <Breakpoint, SlotLayoutConfig>{
+          Breakpoints.small: SlotLayout.from(
+            key: const Key('Bottom Navigation Small'),
+            builder: (_) => AdaptiveScaffold.standardBottomNavigationBar(
+              destinations: destinations,
+            ),
+          )
+        },
       ),
     );
-    final Widget drawer = widget.drawer;
-    return OrientationBuilder(
-      builder: (context, orientation) {
-        final bool isLandscape = orientation == Orientation.landscape;
-        return Scaffold(
-          drawer: isLandscape ? null : drawer,
-          body: isLandscape
-              ? Row(
+  }
+}
+
+class MyAppbarDelegate extends SliverPersistentHeaderDelegate {
+  @override
+  final double maxExtent;
+
+  @override
+  final double minExtent;
+
+  MyAppbarDelegate({
+    required this.maxExtent,
+    this.minExtent = kToolbarHeight,
+  });
+  @override
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+    const actions = [
+      LanguageSettings(),
+      About(),
+    ];
+    final double animation = min(shrinkOffset / (maxExtent - minExtent), 1);
+    final ThemeData theme = MyTheme.themeData;
+    final TextTheme textTheme = theme.textTheme;
+    final ColorScheme colorScheme = theme.colorScheme;
+    final double bodyFontSize = textTheme.bodyMedium?.fontSize ?? Settings.fallbackBodyFontSize;
+
+    return FlexibleSpaceBar.createSettings(
+      minExtent: minExtent,
+      maxExtent: maxExtent,
+      currentExtent: max(minExtent, maxExtent - shrinkOffset),
+      toolbarOpacity: animation,
+      isScrolledUnder: true,
+      child: AppBar(
+        surfaceTintColor: colorScheme.surfaceTint,
+        title: Text(AppLocalizations.of(context)!.my_name),
+        toolbarOpacity: animation,
+        actions: actions,
+        flexibleSpace: FlexibleSpaceBar(
+          collapseMode: CollapseMode.pin,
+          background: ColoredBox(
+            color: colorScheme.background,
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const Expanded(
+                  child: Card(
+                    clipBehavior: Clip.antiAlias,
+                    child: Image(
+                      fit: BoxFit.fill,
+                      isAntiAlias: true,
+                      image: AssetImage(
+                        "assets/images/IMG_4919.HEIC",
+                      ),
+                    ),
+                  ),
+                ),
+                Stack(
                   children: [
-                    drawer,
-                    Expanded(child: body),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        left: 20.0,
+                        bottom: 10,
+                      ),
+                      child: SelectableText.rich(
+                        TextSpan(
+                          children: <InlineSpan>[
+                            TextSpan(
+                              text: "${AppLocalizations.of(context)!.introduction}\n",
+                              style: TextStyle(
+                                color: theme.colorScheme.onBackground,
+                                fontSize: bodyFontSize,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
+                            TextSpan(
+                              text: AppLocalizations.of(context)!.my_name,
+                              style: TextStyle(
+                                color: theme.colorScheme.onBackground,
+                                fontSize: bodyFontSize * 2,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: actions,
+                      ),
+                    ),
                   ],
-                )
-              : body,
-        );
-      },
-    );
-  }
-}
-
-class HomeDrawer extends StatelessWidget {
-  const HomeDrawer({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Drawer(
-      child: ListView(
-        children: [
-          ListTile(
-            title: Text(AppLocalizations.of(context)!.home),
-            leading: const Icon(Icons.home),
+                ),
+              ],
+            ),
           ),
-          ListTile(
-            title: Text(AppLocalizations.of(context)!.profile),
-            leading: const Icon(Icons.man),
-          ),
-          ListTile(
-            title: Text(AppLocalizations.of(context)!.publications),
-            leading: const Icon(Icons.article),
-          ),
-          ListTile(
-            title: Text(AppLocalizations.of(context)!.contact),
-            leading: const Icon(Icons.contact_mail),
-          ),
-          const About(),
-        ],
+        ),
       ),
     );
   }
+
+  @override
+  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) => true;
 }
 
 class HomeTitleAppBar extends StatelessWidget {
@@ -111,66 +211,12 @@ class HomeTitleAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    final TextTheme textTheme = theme.textTheme;
     final double minHeight = (theme.primaryTextTheme.titleLarge?.height ?? Settings.fallbackAppBarFontSize) * 5;
-    final double height = MediaQuery.of(context).size.height / 2;
-    return SliverAppBar(
+    final double height = MediaQuery.of(context).size.height * 0.8;
+    return SliverPersistentHeader(
       pinned: true,
-      primary: true,
-      backgroundColor: theme.colorScheme.primary,
-      foregroundColor: theme.colorScheme.onPrimary,
-      expandedHeight: max(height, minHeight),
-      title: Text(
-        AppLocalizations.of(context)!.home_title,
-        style: TextStyle(
-          color: theme.colorScheme.onPrimary,
-        ),
-      ),
-      actions: const [LanguageSettings()],
-      flexibleSpace: const Introduction(),
-    );
-  }
-}
-
-class Introduction extends StatelessWidget {
-  const Introduction({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
-    final TextTheme textTheme = theme.textTheme;
-    final double bodyFontSize = textTheme.bodyMedium?.fontSize ?? Settings.fallbackBodyFontSize;
-    return FlexibleSpaceBar(
-      collapseMode: CollapseMode.pin,
-      background: Stack(
-        fit: StackFit.passthrough,
-        children: [
-          DecoratedBox(
-            decoration: const BoxDecoration(color: Colors.black54),
-            position: DecorationPosition.foreground,
-            child: Image.asset(
-              "assets/images/IMG_4919.HEIC",
-              fit: BoxFit.cover,
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(bottom: bodyFontSize / 2),
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: ListTile(
-                leading: const SizedBox(),
-                title: Text(
-                  AppLocalizations.of(context)!.introduction,
-                  style: TextStyle(
-                    color: theme.colorScheme.onPrimary,
-                    fontSize: bodyFontSize * 1.2,
-                    fontWeight: FontWeight.normal,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
+      delegate: MyAppbarDelegate(
+        maxExtent: max(height, minHeight),
       ),
     );
   }
@@ -182,17 +228,15 @@ class HomeContents extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ColorScheme colorScheme = MyTheme.colorScheme;
     return SliverList(
-      delegate: SliverChildBuilderDelegate(
-        (BuildContext context, int index) {
-          final ColorScheme colorScheme = Theme.of(context).colorScheme;
-          return Column(
+      delegate: SliverChildListDelegate(
+        [
+          Column(
             children: [
               ...List<Widget>.generate(
                 20,
                 (index) => Card(
-                  elevation: 0,
-                  color: colorScheme.secondaryContainer,
                   child: ListTile(
                     title: Text(
                       '${AppLocalizations.of(context)!.content} $index',
@@ -211,28 +255,62 @@ class HomeContents extends StatelessWidget {
                   ),
                 ),
               ),
+              ListTile(
+                title: Text(
+                  "\n${AppLocalizations.of(context)!.contact}",
+                  style: Theme.of(context).textTheme.headline6,
+                ),
+              ),
               contact,
               const SizedBox(
                 height: kBottomNavigationBarHeight * 3,
               ),
             ],
-          );
-        },
-        childCount: 1,
+          ),
+        ],
       ),
     );
   }
 }
 
-class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+class AdaptiveHomePage extends StatelessWidget {
+  const AdaptiveHomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const MySliverScaffold(
-      drawer: HomeDrawer(),
-      appBar: HomeTitleAppBar(),
-      body: HomeContents(),
+    return const Scaffold(
+      body: MySliverScaffold(
+        appBar: HomeTitleAppBar(),
+        body: HomeContents(),
+      ),
     );
   }
+}
+
+void func() {
+  SliverAnimatedList;
+  SliverAnimatedOpacity;
+  SliverAppBar;
+  SliverFadeTransition;
+  SliverFillRemaining;
+  SliverFillViewport;
+  SliverFixedExtentList;
+  SliverGrid;
+  SliverIgnorePointer;
+  SliverLayoutBuilder;
+  SliverList;
+  SliverMultiBoxAdaptorWidget;
+  SliverOffstage;
+  SliverOpacity;
+  SliverOverlapAbsorber;
+  SliverOverlapInjector;
+  SliverPadding;
+  SliverPersistentHeader;
+  SliverPrototypeExtentList;
+  SliverReorderableList;
+  SliverSafeArea;
+  SliverToBoxAdapter;
+  SliverVisibility;
+  SliverWithKeepAliveWidget;
+  SliverConstraints;
 }
