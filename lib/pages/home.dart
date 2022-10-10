@@ -19,53 +19,90 @@ class MySliverScaffold extends StatelessWidget {
   final Widget body;
   final Widget appBar;
 
+  // Widget sizeAnimation(Widget child, Animation<double> animation) {
+  //   final Animation<double> a = CurvedAnimation(
+  //     parent: animation,
+  //     curve: Curves.easeOutExpo,
+  //     reverseCurve: Curves.easeInExpo,
+  //   );
+  //   return SizeTransition(
+  //     sizeFactor: a,
+  //     axis: Axis.horizontal,
+  //     axisAlignment: -1,
+  //     child: child,
+  //   );
+  // }
+
+  // Widget reverseSizeAnimation(Widget child, Animation<double> animation) {
+  //   return sizeAnimation(child, ReverseAnimation(animation));
+  // }
+
   @override
   Widget build(BuildContext context) {
     final List<NavigationDestination> destinations = [
-      NavigationDestination(icon: const Icon(Icons.home), label: AppLocalizations.of(context)!.home),
-      NavigationDestination(icon: const Icon(Icons.man), label: AppLocalizations.of(context)!.profile),
-      NavigationDestination(icon: const Icon(Icons.article), label: AppLocalizations.of(context)!.publications),
-      NavigationDestination(icon: const Icon(Icons.contact_mail), label: AppLocalizations.of(context)!.contact),
+      NavigationDestination(
+        icon: const Icon(Icons.home),
+        label: AppLocalizations.of(context)!.home,
+        tooltip: AppLocalizations.of(context)!.home,
+      ),
+      NavigationDestination(
+        icon: const Icon(Icons.man),
+        label: AppLocalizations.of(context)!.profile,
+        tooltip: AppLocalizations.of(context)!.profile,
+      ),
+      NavigationDestination(
+        icon: const Icon(Icons.article),
+        label: AppLocalizations.of(context)!.publications,
+        tooltip: AppLocalizations.of(context)!.publications,
+      ),
+      NavigationDestination(
+        icon: const Icon(Icons.contact_mail),
+        label: AppLocalizations.of(context)!.contact,
+        tooltip: AppLocalizations.of(context)!.contact,
+      ),
     ];
-    final List<NavigationRailDestination> railDestinations = destinations
-        .map(
-          (d) => AdaptiveScaffold.toRailDestination(d),
-        )
-        .toList();
     final Widget body = CustomScrollView(
       slivers: <Widget>[
         appBar,
         this.body,
       ],
     );
+
+    Widget myNavRail({required bool extended}) {
+      final TextStyle labelTextTheme = MyTheme.themeData.textTheme.bodyLarge!;
+      return SizedBox(
+        width: extended ? 192 : 72,
+        child: NavigationRail(
+          selectedIndex: null,
+          unselectedLabelTextStyle: labelTextTheme,
+          selectedLabelTextStyle: labelTextTheme,
+          extended: extended,
+          destinations: destinations
+              .map(
+                (d) => NavigationRailDestination(
+                  icon: d.icon,
+                  label: Text(d.label),
+                ),
+              )
+              .toList(),
+        ),
+      );
+    }
+
     return AdaptiveLayout(
+      bodyOrientation: Axis.vertical,
       // Primary navigation config has nothing from 0 to 600 dp screen width,
       // then an unextended NavigationRail with no labels and just icons then an
       // extended NavigationRail with both icons and labels.
       primaryNavigation: SlotLayout(
         config: <Breakpoint, SlotLayoutConfig>{
           Breakpoints.medium: SlotLayout.from(
-            inAnimation: AdaptiveScaffold.leftOutIn,
             key: const Key('Primary Navigation Medium'),
-            builder: (_) => SizedBox(
-              width: 72,
-              child: NavigationRail(
-                destinations: railDestinations,
-                selectedIndex: null,
-              ),
-            ),
+            builder: (_) => myNavRail(extended: false),
           ),
           Breakpoints.large: SlotLayout.from(
-            inAnimation: AdaptiveScaffold.leftOutIn,
-            key: const Key('Primary Navigation Medium'),
-            builder: (_) => SizedBox(
-              width: 192,
-              child: NavigationRail(
-                destinations: railDestinations,
-                selectedIndex: null,
-                extended: true,
-              ),
-            ),
+            key: const Key('Primary Navigation Large'),
+            builder: (_) => myNavRail(extended: true),
           ),
         },
       ),
@@ -73,12 +110,7 @@ class MySliverScaffold extends StatelessWidget {
       // breakpoints and onwards.
       body: SlotLayout(
         config: <Breakpoint, SlotLayoutConfig>{
-          // for b in Breakpoints.
-          Breakpoints.small: SlotLayout.from(
-            key: const Key('Body Small'),
-            builder: (context) => body,
-          ),
-          Breakpoints.mediumAndUp: SlotLayout.from(
+          Breakpoints.standard: SlotLayout.from(
             key: const Key('Body Medium'),
             builder: (context) => body,
           )
@@ -154,43 +186,40 @@ class MyAppbarDelegate extends SliverPersistentHeaderDelegate {
                     ),
                   ),
                 ),
-                Stack(
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        left: 20.0,
-                        bottom: 10,
-                      ),
-                      child: SelectableText.rich(
-                        TextSpan(
-                          children: <InlineSpan>[
-                            TextSpan(
-                              text: "${AppLocalizations.of(context)!.introduction}\n",
-                              style: TextStyle(
-                                color: theme.colorScheme.onBackground,
-                                fontSize: bodyFontSize,
-                                fontWeight: FontWeight.normal,
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          left: 20.0,
+                          bottom: 10,
+                        ),
+                        child: SelectableText.rich(
+                          TextSpan(
+                            children: <InlineSpan>[
+                              TextSpan(
+                                text: "${AppLocalizations.of(context)!.introduction}\n",
+                                style: TextStyle(
+                                  color: theme.colorScheme.onBackground,
+                                  fontSize: bodyFontSize,
+                                  fontWeight: FontWeight.normal,
+                                ),
                               ),
-                            ),
-                            TextSpan(
-                              text: AppLocalizations.of(context)!.my_name,
-                              style: TextStyle(
-                                color: theme.colorScheme.onBackground,
-                                fontSize: bodyFontSize * 2,
-                                fontWeight: FontWeight.normal,
+                              TextSpan(
+                                text: AppLocalizations.of(context)!.my_name,
+                                style: TextStyle(
+                                  color: theme.colorScheme.onBackground,
+                                  fontSize: bodyFontSize * 2,
+                                  fontWeight: FontWeight.normal,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: actions,
-                      ),
-                    ),
+                    ...actions,
                   ],
                 ),
               ],
