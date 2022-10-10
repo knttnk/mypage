@@ -18,12 +18,14 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:mypage/settings.dart';
 
 import "pages/home.dart";
-import "pages/test.dart" as test;
+// import "pages/test.dart" as test;
+import "url_strategy/url_strategy.dart";
 import "about.dart";
 import 'theme.dart';
 
 void main() {
   AboutData.setupLicense();
+  usePathUrlStrategy();
   runApp(const MyApp());
 }
 
