@@ -9,6 +9,7 @@ import 'package:mypage/theme.dart';
 
 import 'package:mypage/about.dart';
 import 'package:mypage/settings.dart';
+import "material3.dart";
 
 class MySliverScaffold extends StatelessWidget {
   const MySliverScaffold({
@@ -263,6 +264,21 @@ class HomeContents extends StatelessWidget {
         [
           Column(
             children: [
+              Card(
+                child: ListTile(
+                  title: Text(
+                    'material 3 test',
+                    style: TextStyle(color: colorScheme.onSecondaryContainer),
+                  ),
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const Material3Test(),
+                      ),
+                    );
+                  },
+                ),
+              ),
               ...List<Widget>.generate(
                 20,
                 (index) => Card(
