@@ -90,7 +90,7 @@ class ContactView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: const [
           ContactTile(
-            content: "なんとかなんとか",
+            content: "なんとかなんとか", // Osaka University, 2-1 Yamadaoka, Suita, Osaka 565-0871, Japan
             iconData: CupertinoIcons.map_pin_ellipse,
           ),
           ContactTile(
