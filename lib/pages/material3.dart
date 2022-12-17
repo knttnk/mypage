@@ -84,6 +84,7 @@ class _Material3TestState extends State<Material3Test> {
     return MaterialApp(
       themeMode: useLightTheme ? ThemeMode.light : ThemeMode.dark,
       theme: ThemeData(useMaterial3: useM3, colorScheme: scheme),
+      darkTheme: ThemeData(useMaterial3: useM3, colorScheme: scheme),
       builder: (context, child) => Scaffold(
         appBar: AppBar(
           title: const Text("Material3のテストページ"),
