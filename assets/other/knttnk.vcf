@@ -1,0 +1,18 @@
+BEGIN:VCARD
+VERSION:3.0
+N:田中;健太;;;
+FN:健太 田中
+X-PHONETIC-FIRST-NAME:ケンタ
+X-PHONETIC-LAST-NAME:タナカ
+ORG:大阪大学大学院工学研究科機械工学専攻 石川･南研究室;
+item1.EMAIL;type=INTERNET;type=pref:kenta.tanaka.at.eom.mech.eng.osaka-u.ac.jp
+item1.X-ABLabel:_$!<School>!$_
+item2.ADR;type=WORK;type=pref:;;山田丘2-1;吹田市;大阪府;565-0871;日本
+item2.X-ABADR:JP
+item2.X-APPLE-SUBLOCALITY:山田丘
+item3.URL;type=pref:https://ishikawa-lab.sakura.ne.jp/
+item3.X-ABLabel:研究室のホームページ
+item4.URL:https://knttnk.github.io/mypage/
+item4.X-ABLabel:_$!<HomePage>!$_
+BDAY:1999-02-11
+END:VCARD
