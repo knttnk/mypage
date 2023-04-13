@@ -2,14 +2,14 @@ import 'dart:math';
 
 import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
 import "package:flutter/material.dart";
-import 'package:flutter/rendering.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:seo_renderer/seo_renderer.dart';
 import 'utils.dart';
 import 'package:mypage/theme.dart';
 
 import 'package:mypage/about.dart';
 import 'package:mypage/settings.dart';
-import "material3.dart";
+// import "material3.dart";
 
 class MySliverScaffold extends StatelessWidget {
   const MySliverScaffold({
@@ -133,14 +133,14 @@ class MySliverScaffold extends StatelessWidget {
   }
 }
 
-class MyAppbarDelegate extends SliverPersistentHeaderDelegate {
+class MyAppBarDelegate extends SliverPersistentHeaderDelegate {
   @override
   final double maxExtent;
 
   @override
   final double minExtent;
 
-  MyAppbarDelegate({
+  MyAppBarDelegate({
     required this.maxExtent,
     this.minExtent = kToolbarHeight,
   });
@@ -164,7 +164,7 @@ class MyAppbarDelegate extends SliverPersistentHeaderDelegate {
       isScrolledUnder: true,
       child: AppBar(
         surfaceTintColor: colorScheme.surfaceTint,
-        title: Text(AppLocalizations.of(context)!.my_name),
+        title: TextRenderer(child: Text(AppLocalizations.of(context)!.my_name)),
         toolbarOpacity: animation,
         actions: actions,
         flexibleSpace: FlexibleSpaceBar(
@@ -178,11 +178,14 @@ class MyAppbarDelegate extends SliverPersistentHeaderDelegate {
                 const Expanded(
                   child: Card(
                     clipBehavior: Clip.antiAlias,
-                    child: Image(
-                      fit: BoxFit.cover,
-                      isAntiAlias: true,
-                      image: AssetImage(
-                        "assets/images/IMG_4919.HEIC",
+                    child: ImageRenderer(
+                      alt: "profile image",
+                      child: Image(
+                        fit: BoxFit.cover,
+                        isAntiAlias: true,
+                        image: AssetImage(
+                          "assets/images/IMG_4919.HEIC",
+                        ),
                       ),
                     ),
                   ),
@@ -196,26 +199,30 @@ class MyAppbarDelegate extends SliverPersistentHeaderDelegate {
                           left: 20.0,
                           bottom: 10,
                         ),
-                        child: SelectableText.rich(
-                          TextSpan(
-                            children: <InlineSpan>[
+                        child: TextRenderer(
+                          child: Center(
+                            child: SelectableText.rich(
                               TextSpan(
-                                text: "${AppLocalizations.of(context)!.introduction}\n",
-                                style: TextStyle(
-                                  color: theme.colorScheme.onBackground,
-                                  fontSize: bodyFontSize,
-                                  fontWeight: FontWeight.normal,
-                                ),
+                                children: <InlineSpan>[
+                                  TextSpan(
+                                    text: "${AppLocalizations.of(context)!.introduction}\n",
+                                    style: TextStyle(
+                                      color: theme.colorScheme.onBackground,
+                                      fontSize: bodyFontSize,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: AppLocalizations.of(context)!.my_name,
+                                    style: TextStyle(
+                                      color: theme.colorScheme.onBackground,
+                                      fontSize: bodyFontSize * 2,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              TextSpan(
-                                text: AppLocalizations.of(context)!.my_name,
-                                style: TextStyle(
-                                  color: theme.colorScheme.onBackground,
-                                  fontSize: bodyFontSize * 2,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
                         ),
                       ),
@@ -245,7 +252,7 @@ class HomeTitleAppBar extends StatelessWidget {
     final double height = MediaQuery.of(context).size.height * 0.8;
     return SliverPersistentHeader(
       pinned: true,
-      delegate: MyAppbarDelegate(
+      delegate: MyAppBarDelegate(
         maxExtent: max(height, minHeight),
       ),
     );
@@ -264,21 +271,21 @@ class HomeContents extends StatelessWidget {
         [
           Column(
             children: [
-              Card(
-                child: ListTile(
-                  title: Text(
-                    'material 3 test',
-                    style: TextStyle(color: colorScheme.onSecondaryContainer),
-                  ),
-                  onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => const Material3Test(),
-                      ),
-                    );
-                  },
-                ),
-              ),
+              // Card(
+              //   child: ListTile(
+              //     title: Text(
+              //       'material 3 test',
+              //       style: TextStyle(color: colorScheme.onSecondaryContainer),
+              //     ),
+              //     onTap: () {
+              //       Navigator.of(context).push(
+              //         MaterialPageRoute(
+              //           builder: (context) => const Material3Test(),
+              //         ),
+              //       );
+              //     },
+              //   ),
+              // ),
               ...List<Widget>.generate(
                 20,
                 (index) => Card(
@@ -303,7 +310,7 @@ class HomeContents extends StatelessWidget {
               ListTile(
                 title: Text(
                   "\n${AppLocalizations.of(context)!.contact}",
-                  style: Theme.of(context).textTheme.headline6,
+                  style: Theme.of(context).textTheme.headlineMedium,
                 ),
               ),
               contact,
@@ -330,32 +337,4 @@ class AdaptiveHomePage extends StatelessWidget {
       ),
     );
   }
-}
-
-void func() {
-  SliverAnimatedList;
-  SliverAnimatedOpacity;
-  SliverAppBar;
-  SliverFadeTransition;
-  SliverFillRemaining;
-  SliverFillViewport;
-  SliverFixedExtentList;
-  SliverGrid;
-  SliverIgnorePointer;
-  SliverLayoutBuilder;
-  SliverList;
-  SliverMultiBoxAdaptorWidget;
-  SliverOffstage;
-  SliverOpacity;
-  SliverOverlapAbsorber;
-  SliverOverlapInjector;
-  SliverPadding;
-  SliverPersistentHeader;
-  SliverPrototypeExtentList;
-  SliverReorderableList;
-  SliverSafeArea;
-  SliverToBoxAdapter;
-  SliverVisibility;
-  SliverWithKeepAliveWidget;
-  SliverConstraints;
 }
