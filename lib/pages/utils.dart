@@ -70,7 +70,7 @@ class ContactTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: Icon(iconData),
-      title: SelectableText(content),
+      title: Text(content),
       trailing: IconButton(
         onPressed: () => copyToClipboard(context),
         tooltip: "Copy",
@@ -86,22 +86,26 @@ class ContactView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
-          ContactTile(
-            content: "なんとかなんとか", // Osaka University, 2-1 Yamadaoka, Suita, Osaka 565-0871, Japan
-            iconData: CupertinoIcons.map_pin_ellipse,
-          ),
-          ContactTile(
-            content: "メールアドレス@ドメイン.com",
-            iconData: CupertinoIcons.mail,
-          ),
-          ContactTile(
-            content: "+81-00-0000-0000",
-            iconData: CupertinoIcons.phone_fill,
-          ),
-        ],
+      child: SelectableRegion(
+        selectionControls: desktopTextSelectionControls,
+        focusNode: FocusNode(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: const [
+            ContactTile(
+              content: "なんとかなんとか", // Osaka University, 2-1 Yamadaoka, Suita, Osaka 565-0871, Japan
+              iconData: CupertinoIcons.map_pin_ellipse,
+            ),
+            ContactTile(
+              content: "メールアドレス@ドメイン.com",
+              iconData: CupertinoIcons.mail,
+            ),
+            ContactTile(
+              content: "+81-00-0000-0000",
+              iconData: CupertinoIcons.phone_fill,
+            ),
+          ],
+        ),
       ),
     );
   }

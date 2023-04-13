@@ -16,6 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:mypage/settings.dart';
+import 'package:seo_renderer/seo_renderer.dart';
 
 import "pages/home.dart";
 // import "pages/test.dart" as test;
@@ -26,7 +27,12 @@ import 'theme.dart';
 void main() {
   AboutData.setupLicense();
   usePathUrlStrategy();
-  runApp(const MyApp());
+  runApp(
+    const RobotDetector(
+      debug: true,
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -62,6 +68,7 @@ class MyAppState extends State<MyApp> {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
+      navigatorObservers: [seoRouteObserver],
       supportedLocales: Settings.supportedLocales,
       locale: locale,
       title: "Website of knttnk",

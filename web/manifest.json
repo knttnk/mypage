@@ -1,11 +1,11 @@
 {
-    "name": "mypage",
-    "short_name": "mypage",
+    "name": "田中健太のホームページ",
+    "short_name": "knttnk",
     "start_url": ".",
-    "display": "standalone",
+    "display": "browser",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "大阪大学大学院工学研究科機械工学専攻 博士後期課程 田中健太のホームページ",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

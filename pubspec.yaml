@@ -36,6 +36,7 @@ dependencies:
   flutter_adaptive_scaffold: ^0.0.8
   flutter_web_plugins:
     sdk: flutter
+  seo_renderer: ^0.6.0
 
 dev_dependencies:
   flutter_test:
