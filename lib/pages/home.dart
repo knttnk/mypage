@@ -192,15 +192,15 @@ class MyAppBarDelegate extends SliverPersistentHeaderDelegate {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          left: 20.0,
-                          bottom: 10,
-                        ),
-                        child: SelectableRegion(
-                          focusNode: FocusNode(),
-                          selectionControls: DesktopTextSelectionControls(),
+                    SelectableRegion(
+                      focusNode: FocusNode(),
+                      selectionControls: DesktopTextSelectionControls(),
+                      child: Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                            left: 20.0,
+                            bottom: 10,
+                          ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
