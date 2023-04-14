@@ -12,11 +12,12 @@
 /// 更新は，mainにコミットしてから
 /// https://knttnk.github.io/mypage/?bc50795
 /// を見る． bc50795 をデプロイ番号？に変える
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:mypage/settings.dart';
-import 'package:seo_renderer/seo_renderer.dart';
+import 'package:mypage/settings.dart';import 'package:seo/seo.dart';
+
 
 import "pages/home.dart";
 // import "pages/test.dart" as test;
@@ -27,12 +28,7 @@ import 'theme.dart';
 void main() {
   AboutData.setupLicense();
   usePathUrlStrategy();
-  runApp(
-    const RobotDetector(
-      debug: true,
-      child: MyApp(),
-    ),
-  );
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
@@ -60,22 +56,25 @@ class MyAppState extends State<MyApp> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      navigatorObservers: [seoRouteObserver],
-      supportedLocales: Settings.supportedLocales,
-      locale: locale,
-      title: "Website of knttnk",
-      scrollBehavior: const CustomScrollBehavior(),
-      theme: MyTheme.themeData,
-      home: const AdaptiveHomePage(),
-      // home: const test.AdaptiveHomePage(),
+  Widget build(BuildContext context) {    
+    return SeoController(
+      tree: WidgetTree(context: context),
+      enabled: kIsWeb,
+      child: MaterialApp(
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: Settings.supportedLocales,
+        locale: locale,
+        title: "Website of knttnk",
+        scrollBehavior: const CustomScrollBehavior(),
+        theme: MyTheme.themeData,
+        home: const AdaptiveHomePage(),
+        // home: const test.AdaptiveHomePage(),
+      ),
     );
   }
 }

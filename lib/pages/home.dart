@@ -3,8 +3,9 @@ import 'dart:math';
 import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:seo_renderer/seo_renderer.dart';
 import 'utils.dart';
+import 'package:seo/seo.dart';
+
 import 'package:mypage/theme.dart';
 
 import 'package:mypage/about.dart';
@@ -164,7 +165,7 @@ class MyAppBarDelegate extends SliverPersistentHeaderDelegate {
       isScrolledUnder: true,
       child: AppBar(
         surfaceTintColor: colorScheme.surfaceTint,
-        title: TextRenderer(child: Text(AppLocalizations.of(context)!.my_name)),
+        title: SelectableText(AppLocalizations.of(context)!.my_name),
         toolbarOpacity: animation,
         actions: actions,
         flexibleSpace: FlexibleSpaceBar(
@@ -180,13 +181,9 @@ class MyAppBarDelegate extends SliverPersistentHeaderDelegate {
                     clipBehavior: Clip.antiAlias,
                     child: FittedBox(
                       fit: BoxFit.cover,
-                      child: ImageRenderer(
-                        alt: "profile image",
-                        src: "assets/images/IMG_4919.HEIC",
-                        child: Image(
-                          image: AssetImage(
-                            "assets/images/IMG_4919.HEIC",
-                          ),
+                      child: Image(
+                        image: AssetImage(
+                          "assets/images/IMG_4919.HEIC",
                         ),
                       ),
                     ),
@@ -201,29 +198,26 @@ class MyAppBarDelegate extends SliverPersistentHeaderDelegate {
                           left: 20.0,
                           bottom: 10,
                         ),
-                        child: TextRenderer(
-                          child: Text.rich(
-                            TextSpan(
-                              children: <InlineSpan>[
-                                TextSpan(
-                                  text: "${AppLocalizations.of(context)!.introduction}\n",
-                                  style: TextStyle(
-                                    color: theme.colorScheme.onBackground,
-                                    fontSize: bodyFontSize,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: AppLocalizations.of(context)!.my_name,
-                                  style: TextStyle(
-                                    color: theme.colorScheme.onBackground,
-                                    fontSize: bodyFontSize * 2,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                ),
-                              ],
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SeoText(
+                              AppLocalizations.of(context)!.introduction,
+                              style: TextStyle(
+                                color: theme.colorScheme.onBackground,
+                                fontSize: bodyFontSize,
+                                fontWeight: FontWeight.normal,
+                              ),
                             ),
-                          ),
+                            SeoText(
+                              AppLocalizations.of(context)!.my_name,
+                              style: TextStyle(
+                                color: theme.colorScheme.onBackground,
+                                fontSize: bodyFontSize * 2,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),

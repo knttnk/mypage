@@ -8,6 +8,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mypage/main.dart';
 import 'package:mypage/theme.dart';
 import 'package:mypage/settings.dart';
+import 'dart:ui' as ui;
+import 'package:seo/seo.dart';
 
 final Map<String, String> languages = {
   "ja": "日本語",
@@ -149,6 +151,65 @@ class ActiveBreakpointViewer extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class SeoText extends StatelessWidget {
+  const SeoText(
+    String this.data, {
+    super.key,
+    this.style,
+    this.strutStyle,
+    this.textAlign,
+    this.textDirection,
+    this.locale,
+    this.softWrap,
+    this.overflow,
+    this.textScaleFactor,
+    this.maxLines,
+    this.semanticsLabel,
+    this.textWidthBasis,
+    this.textHeightBehavior,
+    this.selectionColor,
+  }) : textSpan = null;
+
+  final String data;
+  final InlineSpan? textSpan;
+  final TextStyle? style;
+  final StrutStyle? strutStyle;
+  final TextAlign? textAlign;
+  final TextDirection? textDirection;
+  final Locale? locale;
+  final bool? softWrap;
+  final TextOverflow? overflow;
+  final double? textScaleFactor;
+  final int? maxLines;
+  final String? semanticsLabel;
+  final TextWidthBasis? textWidthBasis;
+  final ui.TextHeightBehavior? textHeightBehavior;
+  final Color? selectionColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return Seo.text(
+      text: data,
+      child: Text(
+        data,
+        style: style,
+        strutStyle: strutStyle,
+        textAlign: textAlign,
+        textDirection: textDirection,
+        locale: locale,
+        softWrap: softWrap,
+        overflow: overflow,
+        textScaleFactor: textScaleFactor,
+        maxLines: maxLines,
+        semanticsLabel: semanticsLabel,
+        textWidthBasis: textWidthBasis,
+        textHeightBehavior: textHeightBehavior,
+        selectionColor: selectionColor,
+      ),
     );
   }
 }
