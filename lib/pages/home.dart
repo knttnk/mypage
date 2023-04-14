@@ -178,13 +178,15 @@ class MyAppBarDelegate extends SliverPersistentHeaderDelegate {
                 const Expanded(
                   child: Card(
                     clipBehavior: Clip.antiAlias,
-                    child: ImageRenderer(
-                      alt: "profile image",
-                      child: Image(
-                        fit: BoxFit.cover,
-                        isAntiAlias: true,
-                        image: AssetImage(
-                          "assets/images/IMG_4919.HEIC",
+                    child: FittedBox(
+                      fit: BoxFit.cover,
+                      child: ImageRenderer(
+                        alt: "profile image",
+                        src: "assets/images/IMG_4919.HEIC",
+                        child: Image(
+                          image: AssetImage(
+                            "assets/images/IMG_4919.HEIC",
+                          ),
                         ),
                       ),
                     ),
@@ -200,28 +202,26 @@ class MyAppBarDelegate extends SliverPersistentHeaderDelegate {
                           bottom: 10,
                         ),
                         child: TextRenderer(
-                          child: Center(
-                            child: SelectableText.rich(
-                              TextSpan(
-                                children: <InlineSpan>[
-                                  TextSpan(
-                                    text: "${AppLocalizations.of(context)!.introduction}\n",
-                                    style: TextStyle(
-                                      color: theme.colorScheme.onBackground,
-                                      fontSize: bodyFontSize,
-                                      fontWeight: FontWeight.normal,
-                                    ),
+                          child: Text.rich(
+                            TextSpan(
+                              children: <InlineSpan>[
+                                TextSpan(
+                                  text: "${AppLocalizations.of(context)!.introduction}\n",
+                                  style: TextStyle(
+                                    color: theme.colorScheme.onBackground,
+                                    fontSize: bodyFontSize,
+                                    fontWeight: FontWeight.normal,
                                   ),
-                                  TextSpan(
-                                    text: AppLocalizations.of(context)!.my_name,
-                                    style: TextStyle(
-                                      color: theme.colorScheme.onBackground,
-                                      fontSize: bodyFontSize * 2,
-                                      fontWeight: FontWeight.normal,
-                                    ),
+                                ),
+                                TextSpan(
+                                  text: AppLocalizations.of(context)!.my_name,
+                                  style: TextStyle(
+                                    color: theme.colorScheme.onBackground,
+                                    fontSize: bodyFontSize * 2,
+                                    fontWeight: FontWeight.normal,
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
