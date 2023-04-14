@@ -198,26 +198,30 @@ class MyAppBarDelegate extends SliverPersistentHeaderDelegate {
                           left: 20.0,
                           bottom: 10,
                         ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SeoText(
-                              AppLocalizations.of(context)!.introduction,
-                              style: TextStyle(
-                                color: theme.colorScheme.onBackground,
-                                fontSize: bodyFontSize,
-                                fontWeight: FontWeight.normal,
+                        child: SelectableRegion(
+                          focusNode: FocusNode(),
+                          selectionControls: DesktopTextSelectionControls(),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SeoText(
+                                AppLocalizations.of(context)!.introduction,
+                                style: TextStyle(
+                                  color: theme.colorScheme.onBackground,
+                                  fontSize: bodyFontSize,
+                                  fontWeight: FontWeight.normal,
+                                ),
                               ),
-                            ),
-                            SeoText(
-                              AppLocalizations.of(context)!.my_name,
-                              style: TextStyle(
-                                color: theme.colorScheme.onBackground,
-                                fontSize: bodyFontSize * 2,
-                                fontWeight: FontWeight.normal,
+                              SeoText(
+                                AppLocalizations.of(context)!.my_name,
+                                style: TextStyle(
+                                  color: theme.colorScheme.onBackground,
+                                  fontSize: bodyFontSize * 2,
+                                  fontWeight: FontWeight.normal,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
