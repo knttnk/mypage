@@ -4,7 +4,6 @@ import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'utils.dart';
-import 'package:seo/seo.dart';
 
 import 'package:mypage/theme.dart';
 
