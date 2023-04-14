@@ -6,6 +6,7 @@
     "configurations": [
         {
             "name": "mypage",
+            // "args": ["--web-renderer", "html"],
             "request": "launch",
             "type": "dart"
         },
